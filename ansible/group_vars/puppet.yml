@@ -1,0 +1,3 @@
+puppet_download: http://apt.puppetlabs.com/puppetlabs-release
+puppet_name: puppetlabes-release
+download_folder: /var/tmp

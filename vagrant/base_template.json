@@ -1,0 +1,59 @@
+{
+  "builders": [
+    {
+      "type": "virtualbox-iso",
+      "boot_command": [
+        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks.cfg<enter><wait>"
+      ],
+      "boot_wait": "10s",
+      "disk_size": 81920,
+      "guest_os_type": "RedHat_64",
+      "headless": "true",
+      "http_directory": "http",
+      "iso_urls": [
+        "CentOS-7-x86_64-Minimal-1511.iso",
+        "http://centos.mirrors.hoobly.com/7/isos/x86_64/CentOS-7-x86_64-Minimal-1511.iso"
+      ],
+      "iso_checksum_type": "md5",
+      "iso_checksum": "88c0437f0a14c6e2c94426df9d43cd67",
+      "ssh_username": "vagrant",
+      "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_wait_timeout": "10000s",
+      "shutdown_command": "echo 'vagrant'|sudo -S /sbin/halt -h -p",
+      "vm_name": "packer-centos-7-x86_64-base",
+      "guest_os_type": "MacOS1011_64"
+    }
+  ],
+  "post-processors": [
+    {
+      "output": "builds/{{.Provider}}-centos7-base.box",
+      "type": "vagrant",
+      "keep_input_artifact": true
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "scripts": [
+        "scripts/setup.sh"
+      ]
+    },
+    {
+      "type": "shell",
+      "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E bash '{{.Path}}'",
+      "inline": [
+        "sleep 10",
+        "sudo rpm -i http://fedora.uib.no/epel/epel-release-latest-7.noarch.rpm",
+        "sudo yum install ansible --enablerepo=epel -y"
+      ]
+    },
+    {
+      "type": "shell",
+      "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E bash '{{.Path}}'",
+      "inline": [
+        "sudo yum remove ansible"
+      ]
+    }
+  ]
+}

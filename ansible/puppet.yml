@@ -1,0 +1,8 @@
+---
+- hosts: puppet
+  gather_facts: False
+  sudo: yes
+  connection: local
+  roles:
+    - docker
+

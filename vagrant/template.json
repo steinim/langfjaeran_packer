@@ -1,0 +1,44 @@
+{
+  "variables": {
+    "ansible_vault_password_file":    "{{env `ANSIBLE_VAULT_PASSWORD_FILE`}}",
+    "server_type": ""
+  },
+  "builders": [
+    {
+      "type": "virtualbox-ovf",
+      "source_path": "output-virtualbox-iso/packer-centos-7-x86_64-base.ovf",
+      "boot_wait": "10s",
+      "headless": "true",
+      "ssh_username": "vagrant",
+      "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_wait_timeout": "10000s",
+      "shutdown_command": "echo 'vagrant'|sudo -S /sbin/halt -h -p",
+      "vm_name": "packer-centos-7-x86_64-{{user `server_type`}}"
+    }
+  ],
+  "post-processors": [
+    {
+      "output": "builds/{{.Provider}}-centos7-{{user `server_type`}}.box",
+      "type": "vagrant"
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E bash '{{.Path}}'",
+      "inline": [
+        "sleep 10",
+        "sudo rpm -i http://fedora.uib.no/epel/epel-release-latest-7.noarch.rpm",
+        "sudo yum install ansible --enablerepo=epel -y"
+      ]
+    },
+    {
+      "type": "ansible-local",
+      "playbook_dir": "../ansible/",
+      "inventory_file": "../ansible/inventory",
+      "playbook_file": "../ansible/{{user `server_type`}}.yml",
+      "extra_arguments": "--limit {{user `server_type`}}"
+    }
+  ]
+}
