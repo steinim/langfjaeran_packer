@@ -1,6 +1,6 @@
 ---
 - hosts: puppet
-  gather_facts: False
+  gather_facts: True
   sudo: yes
   connection: local
   roles:

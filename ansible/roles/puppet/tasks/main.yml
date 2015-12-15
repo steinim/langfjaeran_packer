@@ -1,5 +1,5 @@
 - name: Install the puppet repo package [yum]
-  yum: "name=http://yum.puppetlabs.com/puppetlabs-release-el-6.noarch.rpm"
+  yum: "name=http://yum.puppetlabs.com/puppetlabs-release-el-7.noarch.rpm"
   sudo: yes
 
 - name: Install all the required packaes for a puppetmaster [yum]
