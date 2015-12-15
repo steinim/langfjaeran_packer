@@ -1,1 +1,6 @@
 vagrant/packer_cache/*.iso
+vagrant/builds/*.box
+vagrant/output-virtualbox-iso/*.vmdk
+vagrant/output-virtualbox-iso/*.ovf
+vagrant/output-virtualbox-ovf/*.ovf
+vagrant/output-virtualbox-ovf/*.vmdk
