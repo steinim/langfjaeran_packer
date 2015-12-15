@@ -47,13 +47,6 @@
         "sudo rpm -i http://fedora.uib.no/epel/epel-release-latest-7.noarch.rpm",
         "sudo yum install ansible --enablerepo=epel -y"
       ]
-    },
-    {
-      "type": "shell",
-      "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E bash '{{.Path}}'",
-      "inline": [
-        "sudo yum remove ansible -y"
-      ]
     }
   ]
 }
