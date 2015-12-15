@@ -20,25 +20,8 @@
   "post-processors": [
     {
       "output": "builds/{{.Provider}}-centos7-{{user `server_type`}}.box",
-      "type": "vagrant"
-    }
-  ],
-  "provisioners": [
-    {
-      "type": "shell",
-      "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E bash '{{.Path}}'",
-      "inline": [
-        "sleep 10",
-        "sudo rpm -i http://fedora.uib.no/epel/epel-release-latest-7.noarch.rpm",
-        "sudo yum install ansible --enablerepo=epel -y"
-      ]
-    },
-    {
-      "type": "ansible-local",
-      "playbook_dir": "../ansible/",
-      "inventory_file": "../ansible/inventory",
-      "playbook_file": "../ansible/{{user `server_type`}}.yml",
-      "extra_arguments": "--limit {{user `server_type`}}"
+      "type": "vagrant",
+      "keep_input_artifact": true
     }
   ]
 }
