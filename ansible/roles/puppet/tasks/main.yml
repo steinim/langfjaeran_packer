@@ -26,7 +26,7 @@
   lineinfile: dest=/etc/hosts line="127.0.0.1 puppet.local puppet puppetmaster.local puppetmaster" state=present 
   
 - name: puppet agent --test
-  command: puppet agent --test --server puppetmaster.local creates="/var/lib/puppet/ssl/certs/{{ ansible_fqdn }}"
+  command: puppet agent --test --server {{ ansible_fqdn }} creates="/var/lib/puppet/ssl/certs/{{ ansible_fqdn }}"
   sudo: yes
 
 - name: puppetdb ssl-setup
